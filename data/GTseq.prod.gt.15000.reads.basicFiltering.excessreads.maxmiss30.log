@@ -1,0 +1,12 @@
+
+VCFtools - 0.1.16
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+	--vcf data/GTseq.prod.gt.15000.reads.basicFiltering.excessreads.recode.vcf
+	--recode-INFO-all
+	--max-missing 0.7
+	--out data/GTseq.prod.gt.15000.reads.basicFiltering.excessreads.maxmiss30
+	--recode
+
+Error: Can't determine file type of data/GTseq.prod.gt.15000.reads.basicFiltering.excessreads.recode.vcf
