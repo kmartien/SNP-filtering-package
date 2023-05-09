@@ -41,3 +41,6 @@ vignettes/*.pdf
 # Specific files and folders
 /vcf
 /results
+/data-raw/bam.files
+/data-raw/sam.files
+*.pileup

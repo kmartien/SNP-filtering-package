@@ -1,4 +1,4 @@
-# See "Instructions/2 filtering with vcftools" for details on using this script
+# Implements filtering scheme 5 from O'Leary et al 2018
 
 source("R/Summarize.vcf.R")
 source("R/Visualized.filtered.SNPs.R")
@@ -23,7 +23,7 @@ summarize.vcf(vcf.dir, results.dir, fname = paste0(fname, ".recode"), res.name =
 
 # Remove sites with excess reads
 # Includes only loci with mean read depth across all individuals less than or 
-# equal to the 95th percentile of the distribution (the value is noted on the locus summar plot). 
+# equal to the 95th percentile of the distribution (the value is noted on the locus summary plot). 
 
 loc_stats_raw <- read.loc.stats(dir = "results", fname) 
 names(loc_stats_raw) <- sapply(names(loc_stats_raw), function(x) strsplit(x,fname))
@@ -88,6 +88,7 @@ summarize.vcf(vcf.dir, results.dir, fname = paste0(fname,".recode"), res.name = 
 ###  Execute these paste commands, paste each result into a terminal window,
 ###  delete the forward slashes (\) before the double quotes, and press enter to execute
 vcffilter.AB <- paste0('vcffilter -s -f "AB > 0.25 & AB < 0.75 | AB < 0.01" vcf/', fname, '.recode.vcf > vcf/', fname, '.AB.vcf')
+vcffilter.AB
 vcffilter.strand <- paste0('vcffilter -s -f "SAF / SAR > 100 & SRF / SRR > 100 | SAR / SAF > 100 & SRR / SRF > 100" vcf/', fname, '.AB.vcf > vcf/', fname, '.AB.strand.vcf')
 vcffilter.strand
 vcffilter.mapQual <- paste0('vcffilter -f "MQM / MQMR > 0.9 & MQM / MQMR < 1.05" vcf/', fname, '.AB.strand.vcf > vcf/', fname, '.AB.strand.mapQual.vcf')
@@ -120,7 +121,7 @@ if(length(loc.to.remove$CHROM) > 0) {
 
 
 # Remove sites with more than 5% missing data and individuals with more than 25% missing
-filter.res$lmiss10 <- vcftools.maxMiss(paste0("vcf/", fname), paste0("vcf/", fname, ".lmiss10"), max.miss = 0.9)
+filter.res$lmiss10 <- vcftools.maxMiss(paste0("vcf/", fname), paste0("vcf/", fname, ".lmiss10"), max.miss = 0.95)
 fname <- paste0(fname, ".lmiss10")
 vcftools.imiss(paste0("vcf/", fname, ".recode"), paste0("results/", fname))
 imiss <- read.table(paste("results/",fname,".imiss",sep=""), header = TRUE, stringsAsFactors = FALSE)
@@ -138,3 +139,4 @@ lmiss <- read.table(paste("results/",fname,".lmiss",sep=""), header = TRUE, stri
 print(paste0("After final filtering, max_missing per individual = ", max(imiss$F_MISS), 
              "; max_miss per locus = ", max(lmiss$F_MISS)))
 
+save(filter.res, file = paste0("results/", PROJECT, ".filter.res.rda"))

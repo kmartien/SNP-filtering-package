@@ -5,7 +5,7 @@ basic.vcf.filtering <- function(vcf.dir = "vcf", fname, res, minDP=5, minQ=20, m
   filter.res <- list()
   
   #2.1 Remove genotypes with minimum depth < minDP (default = 5)
-  filter.res$minDP <- vcftools.minQ(vcf.fn = fname, res.fn = paste0(fname, ".minDP", minDP), minDP)
+  filter.res$minDP <- vcftools.minDP(vcf.fn = fname, res.fn = paste0(fname, ".minDP", minDP), minDP)
   fname <- paste0(fname, ".minDP", minDP)
   print("minDP")
   print(filter.res$minDP)
