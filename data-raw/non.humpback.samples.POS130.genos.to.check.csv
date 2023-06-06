@@ -1,0 +1,15 @@
+,locus,Indiv,haplo.1,haplo.2,haplo.3,haplo.4,depth.1,depth.2,depth.3,depth.4,num.haps.called,questionable.hap,stratum
+8,Mnov_gtseq_219,z0011162,N,C,NA,NA,273,260,0,0,3,TRUE,blue-ANT
+3,Mnov_gtseq_219,z0012201,N,C,NA,NA,894,791,0,0,4,TRUE,gray-Sakhalin
+7,Mnov_gtseq_219,z0017317,N,C,NA,NA,285,263,0,0,2,TRUE,blue-NATL
+2,Mnov_gtseq_219,z0025439,C,N,NA,NA,1350,1295,0,0,3,TRUE,blue-ENP/ESP
+1,Mnov_gtseq_73,z0025439,A,A,c,NA,2143,0,0,0,5,TRUE,blue-ENP/ESP
+14,Mnov_gtseq_114,z0030424,N,C,NA,NA,7,4,0,0,2,TRUE,brydes
+9,Mnov_gtseq_219,z0030424,C,N,NA,NA,235,191,0,0,3,TRUE,brydes
+5,Mnov_gtseq_219,z0030475,C,N,NA,NA,346,210,0,0,3,TRUE,fin-HI
+6,Mnov_gtseq_219,z0032258,C,N,NA,NA,324,240,0,0,3,TRUE,brydes
+10,Mnov_gtseq_219,z0042288,C,N,NA,NA,232,129,0,0,2,TRUE,blue-IO
+11,Mnov_gtseq_219,z0062886,C,N,NA,NA,168,133,0,0,3,TRUE,fin-BeringAK
+13,Mnov_gtseq_114,z0067213,N,N,NA,NA,30,0,0,0,2,TRUE,fin-GoC
+4,Mnov_gtseq_219,z0067213,C,N,NA,NA,498,448,0,0,3,TRUE,fin-GoC
+12,Mnov_gtseq_219,z0100814,C,N,NA,NA,72,62,0,0,2,TRUE,gray-North

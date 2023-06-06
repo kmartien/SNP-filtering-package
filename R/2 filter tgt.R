@@ -9,7 +9,7 @@ source("R/0 Load vcf2genos functions.R")
 #source("R/Freebayes.miscalls.r")
 #source("R/multiplot_pdf.r")
 
-description = "GTseq.prod.gt.20000.targets.only.filtered.recode"
+description = "GTseq.val.all.new"
 date = format(Sys.time(), "%Y%b%d")
 
 # Note that this assumes that the date on the saved file you're loading is today's
@@ -17,30 +17,24 @@ date = format(Sys.time(), "%Y%b%d")
 # correct one.
 load(paste0("data/", description, "_", date, "_vcf2tgt.rda"))
 
-###### READ FILE WITH EDITED ARs AND minDPs ##################################
-#locus_AR_minDP <- read.csv("data-raw/multiplot_loci_edit.csv", header = TRUE)
-#row.names(locus_AR_minDP) <- locus_AR_minDP$locus
-#locus_AR_minDP$locus <- as.factor(locus_AR_minDP$locus)
-locus_AR_minDP <- mplot_loci_edit
-
 # filter out genotypes with "in between" allelic ratios (can't be called as het 
 # or homo) and those that don't meet minimum depth (minDP) requirements specified
 # in loc_ann. Also adds AR and minDP values as new columns to tgt. The column 
 # 'locus' in loc_ann should be a factor
-tgt <- filter.tgt(tgt, locus_AR_minDP)
+tgt.filtered <- filter.tgt(tgt, loc.ann)
 
 ########## CHECK FOR MISCALLS ##########
 # Check for any freebayes miscalls (1-minAR) to 1 ratio heterozygotes or (1-maxAR) to maxAR
 # ratio homozygotes. Use this to help correct leftover miscalls. Remember this list is not 
 # comprehensive, you still need to review the plots for miscalls.
 
-FB.miscalls <- freebayes.miscalls(tgt, out.file = paste("results/", description,"_", date, "_freebayes_miscalls.csv", sep = ""))
+FB.miscalls <- freebayes.miscalls(tgt.filtered, out.file = paste("results/", description,"_", date, "_freebayes_miscalls.csv", sep = ""))
 
 tgt$miscalled <- FALSE
 
 for (i in 1:nrow(tgt)) {
   print(i)
-  if (!is.na(tgt$gt[i])) {
+  if (!is.na(tgt$GT[i])) {
     if (tgt$haplo.x[i] != tgt$haplo.y[i]) { #called as heterozygote
       if (tgt$ratio.x[i] >= (1-tgt$minAR[i])) { #should be REF allele homo
         tgt$miscalled[i] <- TRUE
@@ -51,11 +45,11 @@ for (i in 1:nrow(tgt)) {
         tgt$haplo.x[i] <- tgt$haplo.y[i]
       }
     }
-    if (tgt$haplo.x[i] == tgt$haplo.y[i] && !is.na(tgt$gt[i])) { #called as homozygote
+    if (tgt$haplo.x[i] == tgt$haplo.y[i] && !is.na(tgt$GT[i])) { #called as homozygote
       if ((1-tgt$maxAR[i]) >= tgt$ratio.x[i] & tgt$maxAR[i] <= tgt$ratio.x[i]) {
         tgt$miscalled[i] <- TRUE
-        tgt$haplo.x[i] <- tgt$REF[i]
-        tgt$haplo.y[i] <- tgt$ALT[i]
+        tgt$haplo.x[i] <- tgt$haplo.1[i]
+        tgt$haplo.y[i] <- tgt$haplo.2[i]
       }
     }
   }

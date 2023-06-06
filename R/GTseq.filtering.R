@@ -1,26 +1,26 @@
 # Does minimal filtering of GTseq data before moving over to vcf2genotypes.R
 
-source("R/Summarize.vcf.R")
-source("R/Visualized.filtered.SNPs.R")
-source("R/basic.vcf.filtering.R")
+source("R/functions/Summarize.vcf.R")
+source("R/functions/Visualized.filtered.SNPs.R")
+source("R/functions/basic.vcf.filtering.R")
 library(vcftoolsR)
 
-PROJECT <- "GTseq.val.all"
+PROJECT <- "non.humpback.samples.POS130.recode"
 fname <- PROJECT
 vcf.dir <- "vcf"
 results.dir <- "results"
 
-### Summarize raw stats
-summarize.vcf(vcf.dir, results.dir, fname, res.name = fname)
-
 # Filter out low-confidence SNP calls
 # basic.vcf.filtering defaults: minDP < 5, minQ < 20, meanDP < 15, mac < 3, remove monomorphic sites
-filter.res <- basic.vcf.filtering(vcf.dir, fname, paste0(fname,".gtseqFilters"),
-                                  minDP = 10, meanDP = 1, minQ = 30, mac = 3, rm.monomorphic = TRUE)
+res <- basic.vcf.filtering(vcf.dir, fname, paste0(fname,".gtseqFilters"),
+                                  minDP = 10, meanDP = 1, minQ = 10, mac = 1, rm.monomorphic = FALSE)
+filter.res <- res$filter.res
+old.fname <- res$fname
 fname <- paste0(fname,".gtseqFilters")
+file.rename(from = paste0(old.fname, ".recode.vcf"), to = paste0("vcf/", fname, ".recode.vcf"))
 
 #  Summarize again and plot individual and locus summaries
-summarize.vcf(vcf.dir, results.dir, fname = paste0(fname, ".recode"), res.name = fname)
+#summarize.vcf(vcf.dir, results.dir, fname = paste0(fname, ".recode"), res.name = fname)
 
 # Decompose variants and retain only SNPs.
 #########################################################################
@@ -39,8 +39,8 @@ imiss <- read.table(paste("results/",fname,".imiss",sep=""), header = TRUE, stri
 lmiss <- read.table(paste("results/",fname,".lmiss",sep=""), header = TRUE, stringsAsFactors = FALSE)
 print(paste0("Before iterative filtering, max_missing per individual = ", max(imiss$F_MISS), 
              "; max_miss per locus = ", max(lmiss$F_MISS)))
-LQ_indv <- imiss %>% filter(F_MISS > 0.25) %>% select(INDV)
-write.table(LQ_indv, paste0("results/LQ_Ind_", 25),
+LQ_indv <- imiss %>% filter(F_MISS > 0.75) %>% select(INDV)
+write.table(LQ_indv, paste0("results/LQ_Ind_", 75),
             col.names = FALSE, row.names = FALSE, quote = FALSE)
 filter.res$final <- vcftools.removeInd(paste0("vcf/", fname, ".recode"), paste0("vcf/", PROJECT, ".final"),
                                        ind.file.name = paste0("results/LQ_Ind_",25))
@@ -56,4 +56,4 @@ loc_stats_raw <- read.loc.stats(dir = "results", fname)
 snps.per.contig <- loc_stats_raw %>%
   dplyr::group_by(CHR) %>% dplyr::summarise(Count = dplyr::n())
 
-save(filter.res, file = paste0("data/", fname, ".rda"))
+save(filter.res, file = paste0("data/", fname, "new.rda"))

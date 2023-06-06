@@ -1,0 +1,17 @@
+z0007446_Mnov_GTseek_029_159_PLT_9.fastq.sam	z0007446	minke
+z0009880_Mnov_GTseek_029_163_PLT_9.fastq.sam	z0009880	brydes
+z0011162_Mnov_GTseek_028_133_PLT_8.fastq.sam	z0011162	blue-ANT
+z0012201_merged.sam	z0012201	gray-Sakhalin
+z0017317_Mnov_GTseek_028_129_PLT_8.fastq.sam	z0017317	blue-NATL
+z0025439_merged.sam	z0025439	blue-ENP/ESP
+z0030424_merged.sam	z0030424	brydes
+z0030475_Mnov_GTseek_028_121_PLT_8.fastq.sam	z0030475	fin-HI
+z0032258_Mnov_GTseek_029_167_PLT_9.fastq.sam	z0032258	brydes
+z0042288_Mnov_GTseek_028_135_PLT_8.fastq.sam	z0042288	blue-IO
+z0062886_merged.sam	z0062886	fin-BeringAK
+z0067213_Mnov_GTseek_028_125_PLT_8.fastq.sam	z0067213	fin-GoC
+z0100814_Mnov_GTseek_028_137_PLT_8.fastq.sam	z0100814	gray-North
+z0117063_Mnov_GTseek_029_161_PLT_9.fastq.sam	z0117063	minke
+z0143977_Mnov_GTseek_029_169_PLT_9.fastq.sam	z0143977	minke
+z0145401_Mnov_GTseek_028_127_PLT_8.fastq.sam	z0145401	fin-CAORWA
+z0160234_Mnov_GTseek_028_141_PLT_8.fastq.sam	z0160234	gray-PCFG
